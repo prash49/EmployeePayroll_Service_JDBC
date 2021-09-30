@@ -9,6 +9,7 @@ public class EmployeeInfo {
     private LocalDate startDate;
     private String phone;
     private String address;
+    private  int salary;
 
     public int getId() {
         return id;
@@ -58,6 +59,14 @@ public class EmployeeInfo {
         this.gender = gender;
     }
 
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
     @Override
     public String toString() {
         return "EmployeeInfo{" +
@@ -67,6 +76,7 @@ public class EmployeeInfo {
                 ", startDate=" + startDate +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                '}'+"\n";
+                ", salary=" + salary +
+                '}';
     }
 }

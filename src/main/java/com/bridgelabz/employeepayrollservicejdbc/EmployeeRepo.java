@@ -28,7 +28,7 @@ public class EmployeeRepo {
         try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "insert into employees_Payroll(name,gender,startDate,phone,address)" +
-                    "values('" + info.getName() + "','" + info.getGender() + "','" + info.getStartDate() + "','" + info.getPhone() + "','" + info.getAddress() + "');";
+                    "values('" + info.getName() + "','" + info.getGender() + "','" + info.getStartDate() + "','" + info.getPhone() + "','" + info.getAddress() + ",'" + info.getSalary() + "');";
 
             int result = statement.executeUpdate(sql);
             if (result == 1) {
@@ -55,11 +55,25 @@ public class EmployeeRepo {
                 employeeInfo.setStartDate(resultSet.getDate("startDate").toLocalDate());
                 employeeInfo.setPhone(resultSet.getString("phone"));
                 employeeInfo.setAddress(resultSet.getString("address"));
+                employeeInfo.setSalary(resultSet.getInt("salary"));
                 employeeInfoList.add(employeeInfo);
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
         return employeeInfoList;
+    }
+
+    public void updateSalary(int salary, int id) {
+        try (Connection connection = getConnection()) {
+            Statement statement = connection.createStatement();
+            String query = "Update employees_payroll set salary=" + salary + " where id=" + id + ";";
+            int result = statement.executeUpdate(query);
+            if (result == 1) {
+                System.out.println("Salary Updated Successfully");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
