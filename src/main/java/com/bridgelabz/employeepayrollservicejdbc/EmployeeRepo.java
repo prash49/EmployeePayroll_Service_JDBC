@@ -1,9 +1,8 @@
 package com.bridgelabz.employeepayrollservicejdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeRepo {
     Connection connection;
@@ -38,5 +37,29 @@ public class EmployeeRepo {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<EmployeeInfo> retrieveData() {
+        ResultSet resultSet = null;
+        List<EmployeeInfo> employeeInfoList = new ArrayList<EmployeeInfo>();
+        try (Connection connection = getConnection()) {
+            Statement statement = connection.createStatement();
+            String sql = "select * from employees_Payroll";
+            resultSet = statement.executeQuery(sql);
+            int count = 0;
+            while (resultSet.next()) {
+                EmployeeInfo employeeInfo = new EmployeeInfo();
+                employeeInfo.setId(resultSet.getInt("id"));
+                employeeInfo.setName(resultSet.getString("name"));
+                employeeInfo.setGender(resultSet.getString("gender").charAt(0));
+                employeeInfo.setStartDate(resultSet.getDate("startDate").toLocalDate());
+                employeeInfo.setPhone(resultSet.getString("phone"));
+                employeeInfo.setAddress(resultSet.getString("address"));
+                employeeInfoList.add(employeeInfo);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return employeeInfoList;
     }
 }
