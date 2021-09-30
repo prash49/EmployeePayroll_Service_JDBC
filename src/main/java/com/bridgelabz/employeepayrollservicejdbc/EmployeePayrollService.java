@@ -3,26 +3,23 @@ package com.bridgelabz.employeepayrollservicejdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class EmployeePayrollService {
     public static void main(String[] args) {
         EmployeePayrollService service = new EmployeePayrollService();
-        service.getConnection();
+        service.insertData();
+
     }
 
-    private void getConnection() {
-        String url = "jdbc:mysql://127.0.0.1:3306/employeePayroll_service";
-        String username = "root";
-        String password = "rootpassword";
-        Connection connection = null;
-        try {
-
-            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-
-            connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Connection Established");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void insertData() {
+        EmployeeInfo info = new EmployeeInfo();
+        info.setName("Prashanth");
+        info.setGender('M');
+        info.setAddress("Bengaluru");
+        info.setPhone("9876543210");
+        info.setStartDate(LocalDate.of(2020, 10, 12));
+        EmployeeRepo employeeRepo = new EmployeeRepo();
+        employeeRepo.insertData(info);
     }
 }
